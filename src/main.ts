@@ -9,7 +9,7 @@ import 'normalize.css'
 
 const app = createApp(App)
 app.use(registerApp)
-app.use(router)
 app.use(store)
 setupStore()
+app.use(router)
 app.mount('#app')

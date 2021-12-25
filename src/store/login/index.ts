@@ -1,10 +1,10 @@
 import type { IRootState } from '../types'
-import type { ILoginState } from './types'
+import type { ILoginState, IuserMenus } from './types'
 import type { IAccount } from '@/service/login/types'
 import { Module } from 'vuex'
-import localCache from '@/utils/cache'
 import router from '@/router'
-
+import localCache from '@/utils/cache'
+import { mapMenusToRoutes } from '@/utils/map-menus'
 import {
   accountLoginRequets,
   requestUserInfoById,
@@ -28,8 +28,14 @@ const loginModule: Module<ILoginState, IRootState> = {
     changeUserInfo(state, userInfo: any) {
       state.userInfo = userInfo
     },
-    changeUserMenus(state, userMenus: any) {
+    changeUserMenus(state, userMenus: IuserMenus[]) {
       state.userMenus = userMenus
+
+      // 获取到用户菜单后动态注册路由
+      const routes = mapMenusToRoutes(userMenus)
+      routes.forEach((route) => {
+        router.addRoute('main', route)
+      })
     }
   },
   actions: {
@@ -54,6 +60,7 @@ const loginModule: Module<ILoginState, IRootState> = {
       commit('changeUserMenus', userMenus)
       localCache.setCache('userMenus', userMenus)
 
+      // 4.跳转首页
       router.push('/main')
     },
     // 页面刷新时回显数据到vuex

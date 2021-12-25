@@ -6,7 +6,14 @@ import {
   ElFormItem,
   ElInput,
   ElCheckbox,
-  ElLink
+  ElLink,
+  ElContainer,
+  ElAside,
+  ElHeader,
+  ElMain,
+  ElMenu,
+  ElSubmenu,
+  ElMenuItem
 } from 'element-plus'
 import 'element-plus/lib/theme-chalk/base.css'
 import type { App } from 'vue'
@@ -19,7 +26,14 @@ const components = [
   ElFormItem,
   ElInput,
   ElCheckbox,
-  ElLink
+  ElLink,
+  ElContainer,
+  ElAside,
+  ElHeader,
+  ElMain,
+  ElMenu,
+  ElSubmenu,
+  ElMenuItem
 ]
 export default function registerElement(app: App): void {
   for (const comp of components) {

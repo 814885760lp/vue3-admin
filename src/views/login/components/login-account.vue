@@ -12,10 +12,11 @@
 </template>
 
 <script lang="ts">
+import type { ElForm } from 'element-plus'
 import { defineComponent, reactive, ref } from 'vue'
 import { useStore } from 'vuex'
-import { ElForm } from 'element-plus'
 import { rules } from '../config/account-config'
+import localCache from '@/utils/cache'
 
 export default defineComponent({
   setup() {
@@ -26,9 +27,18 @@ export default defineComponent({
       password: ''
     })
     const formRef = ref<InstanceType<typeof ElForm>>()
-    const loginAction = () => {
+    const loginAction = (isKeepPassword: boolean) => {
       formRef.value?.validate((valid) => {
         if (valid) {
+          // 是否要记住密码
+          if (isKeepPassword) {
+            localCache.setCache('name', account.name)
+            localCache.setCache('password', account.password)
+          } else {
+            localCache.deleteCache('name')
+            localCache.deleteCache('password')
+          }
+
           // 通过验证了
           store.dispatch('login/accountLoginAction', { ...account })
         }

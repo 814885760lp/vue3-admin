@@ -1,5 +1,5 @@
-import { createRouter, createWebHashHistory } from 'vue-router'
 import type { RouteRecordRaw } from 'vue-router'
+import { createRouter, createWebHashHistory } from 'vue-router'
 import localCache from '@/utils/cache'
 
 const routes: RouteRecordRaw[] = [
@@ -13,6 +13,11 @@ const routes: RouteRecordRaw[] = [
     name: 'main',
     path: '/main',
     component: () => import('@/views/main/main.vue')
+  },
+  {
+    path: '/:pathMatch(.*)*',
+    name: 'notFound',
+    component: () => import('@/views/not-found/not-found.vue')
   }
 ]
 
