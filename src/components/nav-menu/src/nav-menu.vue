@@ -9,8 +9,8 @@
       background-color="#0c2135"
       text-color="#b7bdc3"
       active-text-color="#0a60bd"
-      default-active="2"
       router
+      :default-active="$route.path"
       :collapse="collapse"
     >
       <template v-for="subMenu in userMenus" :key="subMenu.id">

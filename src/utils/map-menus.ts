@@ -1,6 +1,12 @@
 import type { RouteRecordRaw } from 'vue-router'
 import type { IuserMenus } from '@/store/login/types'
+import type { IBreadcrumb } from '@/base-ui/breadcrumb'
 
+/**
+ * 根据后端返回的菜单列表及用户角色，返回对应菜单路由列表
+ * @param userMenus
+ * @returns 路由
+ */
 export function mapMenusToRoutes(userMenus: IuserMenus[]): RouteRecordRaw[] {
   // 返回的用户权限路由
   const routes: RouteRecordRaw[] = []
@@ -26,4 +32,29 @@ export function mapMenusToRoutes(userMenus: IuserMenus[]): RouteRecordRaw[] {
   _recurseGetRoute(userMenus)
 
   return routes
+}
+
+export function pathMapToBreadcrumb(userMenus: any[], currentPath: string) {
+  const breadcrumbs: IBreadcrumb[] = []
+  pathMapToMenu(userMenus, currentPath, breadcrumbs)
+  return breadcrumbs
+}
+
+export function pathMapToMenu(
+  userMenus: any[],
+  currentPath: string,
+  breadcrumbs?: IBreadcrumb[]
+): any {
+  for (const menu of userMenus) {
+    if (menu.type === 1) {
+      const findMenu = pathMapToMenu(menu.children ?? [], currentPath)
+      if (findMenu) {
+        breadcrumbs?.push({ name: menu.name })
+        breadcrumbs?.push({ name: findMenu.name })
+        return findMenu
+      }
+    } else if (menu.type === 2 && menu.url === currentPath) {
+      return menu
+    }
+  }
 }

@@ -3,7 +3,7 @@ import { createRouter, createWebHashHistory } from 'vue-router'
 import localCache from '@/utils/cache'
 
 const routes: RouteRecordRaw[] = [
-  { path: '/', redirect: '/main' },
+  { path: '/', redirect: '/main/analysis/overview' },
   {
     name: 'login',
     path: '/login',
