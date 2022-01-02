@@ -28,7 +28,8 @@ import {
   ElBreadcrumb,
   ElBreadcrumbItem,
   ElTable,
-  ElTableColumn
+  ElTableColumn,
+  ElPagination
 } from 'element-plus'
 import 'element-plus/lib/theme-chalk/base.css'
 import type { App } from 'vue'
@@ -63,7 +64,8 @@ const components = [
   ElBreadcrumb,
   ElBreadcrumbItem,
   ElTable,
-  ElTableColumn
+  ElTableColumn,
+  ElPagination
 ]
 export default function registerElement(app: App): void {
   for (const comp of components) {

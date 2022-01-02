@@ -7,6 +7,7 @@
     ></i>
     <div class="content">
       <my-breadcrumb :breadcrumbs="breadcrumbs"></my-breadcrumb>
+      <user-info />
     </div>
   </div>
 </template>
@@ -17,10 +18,11 @@ import { useRoute } from 'vue-router'
 import { useStore } from '@/store'
 import { pathMapToBreadcrumb } from '@/utils/map-menus'
 import MyBreadcrumb from '@/base-ui/breadcrumb'
+import UserInfo from './user-info.vue'
 
 export default defineComponent({
   emits: ['foldChange'],
-  components: { MyBreadcrumb },
+  components: { MyBreadcrumb, UserInfo },
   setup(props, { emit }) {
     const isFold = ref(false)
     const handleFoldClick = () => {
@@ -30,10 +32,10 @@ export default defineComponent({
 
     // 获取面包屑数据
     const store = useStore()
+    const route = useRoute()
     const breadcrumbs = computed(() => {
       const userMenus = store.state.login.userMenus
-      const router = useRoute()
-      const currentPath = router.path
+      const currentPath = route.path
       return pathMapToBreadcrumb(userMenus, currentPath)
     })
     return { isFold, handleFoldClick, breadcrumbs }

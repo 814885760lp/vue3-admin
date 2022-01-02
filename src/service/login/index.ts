@@ -1,4 +1,5 @@
-import type { IAccount, IDataType, ILoginResult } from './types'
+import type { IAccount, ILoginResult } from './types'
+import type { IDataType } from '../types'
 import request from '../index'
 
 enum LoginAPI {

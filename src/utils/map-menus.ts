@@ -34,12 +34,25 @@ export function mapMenusToRoutes(userMenus: IuserMenus[]): RouteRecordRaw[] {
   return routes
 }
 
+/**
+ *
+ * @param userMenus 用户菜单
+ * @param currentPath 当前路由url
+ * @returns 面包屑列表
+ */
 export function pathMapToBreadcrumb(userMenus: any[], currentPath: string) {
   const breadcrumbs: IBreadcrumb[] = []
   pathMapToMenu(userMenus, currentPath, breadcrumbs)
   return breadcrumbs
 }
 
+/**
+ *
+ * @param userMenus 用户菜单
+ * @param currentPath 当前路由url
+ * @param breadcrumbs 面包屑
+ * @returns 当前路由url去用户菜单中匹配到的菜单项
+ */
 export function pathMapToMenu(
   userMenus: any[],
   currentPath: string,
@@ -49,8 +62,8 @@ export function pathMapToMenu(
     if (menu.type === 1) {
       const findMenu = pathMapToMenu(menu.children ?? [], currentPath)
       if (findMenu) {
-        breadcrumbs?.push({ name: menu.name })
-        breadcrumbs?.push({ name: findMenu.name })
+        breadcrumbs?.push({ name: menu.name, path: menu.path })
+        breadcrumbs?.push({ name: findMenu.name, path: findMenu.path })
         return findMenu
       }
     } else if (menu.type === 2 && menu.url === currentPath) {
