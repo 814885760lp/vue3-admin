@@ -12,6 +12,7 @@
       border
       style="width: 100%"
       :data="listData"
+      v-bind="childrenProps"
       @selection-change="handleSelectionChange"
     >
       <el-table-column
@@ -33,6 +34,7 @@
           :label="item.label"
           :min-width="item.minWidth"
           align="center"
+          show-overflow-tooltip
         >
           <template #default="{ row }">
             <slot :name="item.slotName" :row="row">{{ row[item.prop] }}</slot>
@@ -40,7 +42,7 @@
         </el-table-column>
       </template>
     </el-table>
-    <div class="footer">
+    <div class="footer" v-if="showFooter">
       <slot name="footer">
         <el-pagination
           :page-sizes="[10, 20, 30]"
@@ -84,6 +86,14 @@ export default defineComponent({
     listCount: {
       type: Number,
       default: 0
+    },
+    childrenProps: {
+      type: Object,
+      default: () => ({})
+    },
+    showFooter: {
+      type: Boolean,
+      default: true
     }
   },
   setup(props, { emit }) {

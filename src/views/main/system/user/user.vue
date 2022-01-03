@@ -9,12 +9,22 @@
       ref="searchContentRef"
       :contentTableConfig="contentTableConfig"
       pageName="users"
-    ></page-content>
+    >
+      <!-- #enable 启用状态-->
+      <template #status="{ row }">
+        <el-button
+          plain
+          size="mini"
+          :type="row.enable ? 'success' : 'danger'"
+          >{{ row.enable ? '启用' : '禁用' }}</el-button
+        >
+      </template>
+    </page-content>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
+import { defineComponent } from 'vue'
 import { searchFormConfig } from './config/search.config'
 import { contentTableConfig } from './config/content.config'
 import { usePageSearch } from '@/hooks/usePageSearch'

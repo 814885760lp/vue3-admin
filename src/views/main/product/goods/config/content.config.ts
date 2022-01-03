@@ -1,8 +1,19 @@
 export const contentTableConfig = {
   propList: [
-    { prop: 'name', label: '用户名', minWidth: '100' },
-    { prop: 'realname', label: '真实姓名', minWidth: '100' },
-    { prop: 'cellphone', label: '手机号码', minWidth: '100' },
+    { prop: 'name', label: '商品名称', minWidth: '100' },
+    {
+      prop: 'oldPrice',
+      label: '原价格',
+      minWidth: '100',
+      slotName: 'oldPrice'
+    },
+    {
+      prop: 'newPrice',
+      label: '现价格',
+      minWidth: '100',
+      slotName: 'newPrice'
+    },
+    { prop: 'imgUrl', label: '商品图片', minWidth: '100', slotName: 'image' },
     { prop: 'status', label: '状态', minWidth: '100', slotName: 'status' },
     {
       prop: 'createAt',
@@ -19,5 +30,6 @@ export const contentTableConfig = {
     { label: '操作', minWidth: '120', slotName: 'handler' }
   ],
   showSelectionColumn: true,
-  showIndexColumn: true
+  showIndexColumn: true,
+  showFooter: true
 }
