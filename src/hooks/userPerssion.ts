@@ -1,10 +1,9 @@
 import { useStore } from '@/store'
 
-export function usePermission(pageName: string, handleName: string) {
+export function usePermission(pageName: string, hanldeName: string) {
   const store = useStore()
-  const perssions = store.state.login.permission
+  const permissions = store.state.login.permissions
+  const verifyPermission = `system:${pageName}:${hanldeName}`
 
-  const verifyPerssion = `system:${pageName}:${handleName}`
-
-  return !!perssions.find((item: string) => item === verifyPerssion)
+  return !!permissions.find((item: string) => item === verifyPermission)
 }

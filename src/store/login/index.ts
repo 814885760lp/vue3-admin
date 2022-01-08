@@ -18,7 +18,7 @@ const loginModule: Module<ILoginState, IRootState> = {
       token: '',
       userInfo: {},
       userMenus: [],
-      permission: []
+      permissions: []
     }
   },
   getters: {},
@@ -39,19 +39,22 @@ const loginModule: Module<ILoginState, IRootState> = {
       })
 
       // 存储按钮权限
-      const permission = mapMenusToPermissions(userMenus)
-      state.permission = permission
+      const permissions = mapMenusToPermissions(userMenus)
+      state.permissions = permissions
     }
   },
   actions: {
     // 登录操作
-    async accountLoginAction({ commit }, payload: IAccount) {
+    async accountLoginAction({ commit, dispatch }, payload: IAccount) {
       // 1.调用登录接口
       const {
         data: { id, token }
       } = await accountLoginRequets(payload)
       commit('changeToken', token)
       localCache.setCache('token', token)
+
+      // 发送初始化的请求(完整的role/department)
+      dispatch('getInitialDataAction', null, { root: true })
 
       // 2.调用用户信息接口
       const { data: userInfo } = await requestUserInfoById(id)
@@ -69,10 +72,11 @@ const loginModule: Module<ILoginState, IRootState> = {
       router.push('/main')
     },
     // 页面刷新时回显数据到vuex
-    loadLocalLogin({ commit }) {
+    loadLocalLogin({ commit, dispatch }) {
       const token = localCache.getCache('token')
       if (token) {
         commit('changeToken', token)
+        dispatch('getInitialDataAction', null, { root: true })
       }
 
       const userInfo = localCache.getCache('userInfo')

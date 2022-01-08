@@ -30,7 +30,9 @@ import {
   ElTable,
   ElTableColumn,
   ElPagination,
-  ElImage
+  ElImage,
+  ElDialog,
+  ElTree
 } from 'element-plus'
 import 'element-plus/lib/theme-chalk/base.css'
 import type { App } from 'vue'
@@ -67,7 +69,9 @@ const components = [
   ElTable,
   ElTableColumn,
   ElPagination,
-  ElImage
+  ElImage,
+  ElDialog,
+  ElTree
 ]
 export default function registerElement(app: App): void {
   for (const comp of components) {

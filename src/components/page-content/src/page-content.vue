@@ -8,7 +8,11 @@
     >
       <!-- #header -->
       <template #headerHandler>
-        <el-button type="primary" size="medium" v-if="hasCreate"
+        <el-button
+          type="primary"
+          size="medium"
+          v-if="hasCreate"
+          @click="handleCreateClick"
           >新建用户</el-button
         >
       </template>
@@ -20,13 +24,14 @@
         <span>{{ $filters.formatTime(row.updateAt) }}</span>
       </template>
       <!-- #handler 按钮操作 -->
-      <template #handler>
+      <template #handler="{ row }">
         <div class="handle-btns">
           <el-button
             icon="el-icon-edit"
             size="mini"
             type="text"
             v-if="hasUpdate"
+            @click="handleEditClick(row)"
             >编辑</el-button
           >
           <el-button
@@ -34,6 +39,7 @@
             size="mini"
             type="text"
             v-if="hasDelete"
+            @click="handleDelete(row)"
             >删除</el-button
           >
         </div>
@@ -71,26 +77,26 @@ export default defineComponent({
   components: {
     MyTable
   },
-  setup(props) {
+  setup(props, { emit }) {
     const store = useStore()
 
     // 获取按钮权限
-    const hasCreate = usePermission(props.pageName!, ' create')
-    const hasUpdate = usePermission(props.pageName!, ' update')
-    const hasDelete = usePermission(props.pageName!, ' delete')
-    const hasQuery = usePermission(props.pageName!, ' query')
+    const hasCreate = usePermission(props.pageName!, 'create')
+    const hasUpdate = usePermission(props.pageName!, 'update')
+    const hasDelete = usePermission(props.pageName!, 'delete')
+    const hasQuery = usePermission(props.pageName!, 'query')
 
-    const pageInfo = ref({ currentPage: 0, pageSize: 10 })
+    const pageInfo = ref({ currentPage: 1, pageSize: 10 })
     watch(pageInfo, () => getPageList())
 
     const getPageList = (params: any = {}) => {
-      if (hasQuery) {
+      if (!hasQuery) {
         return
       }
       store.dispatch('system/getPageListAction', {
         pageName: props.pageName,
         queryInfo: {
-          offset: pageInfo.value.currentPage * pageInfo.value.pageSize,
+          offset: (pageInfo.value.currentPage - 1) * pageInfo.value.pageSize,
           size: pageInfo.value.pageSize,
           ...params
         }
@@ -107,6 +113,7 @@ export default defineComponent({
       store.getters['system/pageListCount'](props.pageName)
     )
 
+    // 获取动态插槽列表
     const slotList = computed(() => {
       const baseSlotList = ['status', 'image']
       const list = contentTableConfig.propList.filter(
@@ -116,6 +123,21 @@ export default defineComponent({
       return list
     })
 
+    // 删除数据
+    const handleDelete = ({ id }: any) => {
+      store.dispatch('system/deletePageListAction', {
+        pageName: props.pageName,
+        id
+      })
+    }
+
+    const handleCreateClick = () => {
+      emit('handleCreateClick')
+    }
+    const handleEditClick = (row: any) => {
+      emit('handleEditClick', row)
+    }
+
     return {
       listData,
       listCount,
@@ -124,7 +146,10 @@ export default defineComponent({
       slotList,
       hasCreate,
       hasUpdate,
-      hasDelete
+      hasDelete,
+      handleDelete,
+      handleCreateClick,
+      handleEditClick
     }
   }
 })

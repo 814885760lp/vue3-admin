@@ -19,6 +19,7 @@ module.exports = {
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     '@typescript-eslint/no-var-requires': 'off', // 关闭使用commonjs导入的校验，否则eslintrc文件会有警告
     '@typescript-eslint/no-explicit-any': 'off',
-    '@typescript-eslint/explicit-module-boundary-types': 'off' // 关闭函数没有显示指明返回值类型的警告
+    '@typescript-eslint/explicit-module-boundary-types': 'off', // 关闭函数没有显示指明返回值类型的警告
+    '@typescript-eslint/no-non-null-assertion': 'off',
   }
 }
